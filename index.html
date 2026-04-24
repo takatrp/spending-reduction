@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>支出削減効果を売上に直すといくらですか？</title>
+
+<link rel="icon" href="favicon192192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="favicon192192.png" />
+<meta name="theme-color" content="#578899" />
+
+<style>
+  :root{
+    --bg:#f4f9fb;
+    --card:#ffffff;
+    --ink:#1e2a2d;
+    --muted:#5a6a6d;
+    --accent:#578899;
+    --accent-2:#7aa2b0;
+    --line:#d9eaed;
+    --soft:#eef7f8;
+    --soft2:#e9f6f8;
+    --shadow:0 10px 30px rgba(35,80,90,.12);
+    --ok:#12805c;
+    --warn:#b45309;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",Segoe UI,Roboto,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+  }
+  .wrap{
+    padding:max(12px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));
+    max-width:620px;
+    margin:0 auto;
+  }
+
+  header{padding:8px 6px 2px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .logo-link{display:inline-flex;line-height:0;text-decoration:none;flex:0 0 auto}
+  .logo{height:48px;width:auto;object-fit:contain}
+  .title{
+    flex:1;min-width:0;margin:0;
+    font-weight:900;letter-spacing:.01em;line-height:1.22;
+    font-size:clamp(17px,4.6vw,24px);color:#0e2430;
+  }
+  .subtitle{color:#5a6a6d;font-size:12px;margin:7px 0 0;line-height:1.65}
+
+  .card{
+    background:var(--card);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:18px 16px;
+    margin:12px 0 18px;
+  }
+  .field{margin:10px 0 16px}
+  .label-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 6px 2px}
+  .label.big{font-size:16px;font-weight:800;color:#324245}
+  .helper{font-size:12px;color:#6a7a7d;margin:4px 2px 0;line-height:1.65}
+  .helper strong{color:#2f4448}
+  .last-date{font-size:11px;color:#889aa0;font-weight:400;margin-left:auto;white-space:nowrap}
+
+  .period-switch{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin:8px 0 2px;
+  }
+  .seg-btn,
+  .mode-btn{
+    border:1px solid var(--line);
+    background:#f8fcfd;
+    color:#456166;
+    border-radius:12px;
+    padding:10px 10px;
+    font-weight:900;
+    cursor:pointer;
+    line-height:1.1;
+  }
+  .seg-btn.active,
+  .mode-btn.active{
+    background:linear-gradient(180deg,#7aa2b0,#578899);
+    color:#fff;
+    border-color:transparent;
+    box-shadow:0 8px 18px rgba(35,80,90,.14);
+  }
+
+  .mode-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+    margin-top:8px;
+  }
+  @media (max-width:430px){
+    .mode-grid{grid-template-columns:1fr}
+    .mode-btn{text-align:left;padding:11px 12px}
+  }
+  .mode-btn small{display:block;font-size:10px;font-weight:700;opacity:.78;margin-top:4px}
+
+  .range-row{display:flex;align-items:center;gap:12px;padding:8px 0}
+  input[type="range"]{-webkit-appearance:none;width:100%;height:26px;background:transparent}
+  input[type="range"]::-webkit-slider-runnable-track{
+    height:6px;background:linear-gradient(90deg,#7aa2b0,#578899);border-radius:999px;
+  }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:26px;height:26px;border-radius:50%;
+    background:#fff;border:2px solid #578899;
+    margin-top:-10px;
+    box-shadow:0 1px 6px rgba(0,0,0,.08);
+  }
+
+  .yen-input,.pctbox{
+    display:flex;align-items:center;gap:8px;
+    background:#f8fcfd;border:1px solid var(--line);
+    border-radius:12px;padding:8px 10px;
+  }
+  .yen-input .prefix{font-weight:800;color:#578899;border-right:1px solid #e6f1f3;padding-right:10px}
+  input.money,input.pct{
+    border:0;outline:none;background:transparent;
+    font-size:20px;font-weight:900;color:#1e2a2d;
+    width:126px;text-align:right;
+    font-feature-settings:"tnum";
+    font-variant-numeric:tabular-nums;
+  }
+  input.pct{width:76px}
+  .pctbox .unit{font-weight:900;color:#1e2a2d}
+  .input-stack{display:grid;gap:10px;margin-top:8px}
+
+  .chip-grid{
+    display:grid;gap:8px;margin-top:8px;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+  @media (max-width:420px){.chip-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .chip{
+    display:flex;align-items:center;justify-content:space-between;gap:6px;
+    border:1px solid var(--line);
+    background:#f3fafb;color:#578899;
+    padding:8px 10px;border-radius:12px;
+    font-size:12px;line-height:1.05;
+    cursor:pointer;
+  }
+  .chip .nm{font-weight:800;white-space:nowrap}
+  .chip .val{font-weight:900;color:#1f3a3e;font-feature-settings:"tnum"}
+
+  .btn{
+    background:linear-gradient(180deg,#7aa2b0,#578899);
+    color:#fff;font-weight:900;border:0;width:100%;
+    border-radius:12px;padding:16px 18px;font-size:17px;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    transition:transform .1s,filter .1s;
+  }
+  .btn:hover{filter:brightness(1.03)}
+  .btn:active{transform:translateY(1px);filter:brightness(.98)}
+  .btn.secondary{background:#eef7f8;color:#578899;box-shadow:none;border:1px solid var(--line)}
+  .btn.next-step{background:linear-gradient(180deg,#4f7988,#4b7685);box-shadow:0 8px 20px rgba(35,80,90,.16)}
+  .tiny-btn{
+    background:#eef7f8;color:#578899;border:1px solid var(--line);
+    border-radius:999px;font-size:12px;padding:6px 10px;
+    font-weight:800;cursor:pointer;line-height:1;
+  }
+
+  .result{margin-top:16px}
+  .summary-box{
+    text-align:center;
+    background:linear-gradient(180deg,#f7fcfd,#edf8fa);
+    border:1px solid #d9eaed;
+    border-radius:16px;
+    padding:16px 12px;
+  }
+  .result-label{font-size:15px;font-weight:900;color:#324245}
+  .amount{
+    font-size:clamp(26px,8vw,38px);
+    font-weight:950;color:#578899;margin:7px 0 2px;
+    font-feature-settings:"tnum";
+    font-variant-numeric:tabular-nums;
+  }
+  .subamount{font-size:13px;color:#56696d;font-weight:800;line-height:1.7}
+  .statement{
+    margin-top:12px;background:#e9f6f8;
+    border:1px dashed #7aa2b0;border-radius:12px;
+    padding:12px;color:#0f2022;font-weight:900;
+    line-height:1.65;
+    font-size:clamp(16px,4.6vw,21px);
+    text-align:center;
+  }
+  .statement .em{color:#355f6b}
+  .viz-card{
+    margin-top:14px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:14px 12px;
+  }
+  .viz-title{
+    font-size:14px;
+    font-weight:900;
+    color:#324245;
+    margin-bottom:10px;
+  }
+  .viz-sub{
+    font-size:12px;
+    color:#667b80;
+    line-height:1.6;
+    margin-bottom:12px;
+  }
+  .bar-compare{display:grid;gap:12px}
+  .bar-row{
+    display:grid;
+    grid-template-columns:74px 1fr auto;
+    gap:10px;
+    align-items:center;
+  }
+  .bar-label{font-size:12px;font-weight:800;color:#5b6d71}
+  .bar-track{
+    position:relative;
+    height:18px;
+    background:#edf4f6;
+    border-radius:999px;
+    overflow:hidden;
+    border:1px solid #e3eef0;
+  }
+  .bar-fill{height:100%;border-radius:999px;transition:width .45s ease}
+  .bar-fill.before{background:linear-gradient(90deg,#a7c0c8,#7aa2b0)}
+  .bar-fill.after{background:linear-gradient(90deg,#6daec0,#578899)}
+  .bar-value{
+    font-size:12px;
+    font-weight:900;
+    color:#294248;
+    min-width:78px;
+    text-align:right;
+    font-feature-settings:"tnum";
+  }
+  .stack-wrap{
+    margin-top:14px;
+    background:#f8fcfd;
+    border:1px solid #e4eff2;
+    border-radius:12px;
+    padding:12px 10px;
+  }
+  .stack-track{
+    display:flex;
+    width:100%;
+    height:26px;
+    border-radius:999px;
+    overflow:hidden;
+    background:#edf4f6;
+    border:1px solid #e3eef0;
+  }
+  .stack-after{background:linear-gradient(90deg,#6daec0,#578899);transition:width .45s ease}
+  .stack-saved{background:linear-gradient(90deg,#f3c46e,#e0a53a);transition:width .45s ease}
+  .stack-legend{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:10px;
+  }
+  .legend-item{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    font-size:12px;
+    color:#50666b;
+    line-height:1.55;
+  }
+  .legend-dot{width:12px;height:12px;border-radius:999px;flex:0 0 auto;margin-top:2px}
+  .legend-dot.after{background:#578899}
+  .legend-dot.saved{background:#e0a53a}
+  .legend-item strong{display:block;color:#21353a}
+  .delta-band{
+    margin-top:12px;
+    background:#fff8e7;
+    border:1px solid #f2d49b;
+    color:#5a3a08;
+    border-radius:12px;
+    padding:11px 12px;
+    font-size:13px;
+    font-weight:800;
+    line-height:1.7;
+  }
+
+  .insight{
+    margin-top:12px;
+    padding:12px;
+    background:#fffaf0;
+    border:1px solid #f2d49b;
+    border-radius:12px;
+    color:#4b3413;
+    font-size:13px;
+    line-height:1.7;
+    font-weight:800;
+  }
+
+  .kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+    margin-top:12px;
+  }
+  @media (max-width:430px){.kpi-grid{grid-template-columns:1fr}}
+  .kpi{
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:14px;
+    padding:12px;
+  }
+  .kpi .k{font-size:12px;color:#60767a;font-weight:800;margin-bottom:4px}
+  .kpi .v{font-size:18px;color:#1e2a2d;font-weight:950;font-feature-settings:"tnum"}
+  .kpi.good .v{color:#12805c}
+
+  .avgrow-container{
+    margin-top:16px;
+    padding-top:14px;
+    border-top:1px dashed var(--line);
+  }
+  .avg-label{font-size:15px;font-weight:800;color:#324245}
+  .input-row-right{display:flex;justify-content:flex-end;margin-top:6px}
+  .yen-input.small .money{font-size:16px;width:110px}
+  .yen-input.small input::placeholder{color:#7f8d91;opacity:.55;font-weight:500}
+  .metrics{margin-top:8px;text-align:right;color:#2b3a3d;font-size:15px;line-height:1.7}
+  .metrics b{font-weight:950;color:#0f2022}
+
+  .btn-row{display:none;gap:8px;margin-top:12px}
+  .btn-row.show{display:flex}
+  .btn-row .btn{flex:1;padding:12px 10px;font-size:15px}
+  @media (max-width:430px){.btn-row{flex-direction:column}}
+
+  .note{margin-top:12px;color:#6a7a7d;font-size:12px;line-height:1.65}
+  .mk-mini{margin:18px 4px 6px;text-align:center;color:#667;font-size:11px;line-height:1.6}
+  .mk-mini a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+
+  [hidden]{display:none!important}
+
+  @media print{
+    body{background:#fff;padding-bottom:0!important}
+    .wrap{max-width:720px;padding:0}
+    .card{box-shadow:none;border:1px solid #ddd}
+    .btn,.tiny-btn,.chip-grid,.period-switch,.mode-grid,.range-row input[type="range"],.mk-nav{display:none!important}
+    .btn-row{display:none!important}
+    .subtitle,.helper,.note,.mk-mini{color:#333}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <a class="logo-link" href="https://takatrp.github.io/tool-portal/" target="_blank" rel="noopener" aria-label="松本会計ツールポータルへ">
+        <img src="ロゴ.jpg" alt="松本会計事務所ロゴ" class="logo" />
+      </a>
+      <h1 class="title">支出削減効果を<br class="sp-br">売上に直すといくらですか？</h1>
+    </div>
+    <div class="subtitle">現在の支出を削減したとき、その効果が「いくら売上を増やしたのと同じか」を限界利益率で換算します。</div>
+  </header>
+
+  <section class="card" aria-label="入力">
+    <div class="field">
+      <div class="label-row">
+        <div class="label big">① 計算単位</div>
+        <button id="sampleBtn" class="tiny-btn" type="button">例を入れる</button>
+      </div>
+      <div class="period-switch" role="group" aria-label="計算単位">
+        <button class="seg-btn active" type="button" data-period="monthly">月額で見る</button>
+        <button class="seg-btn" type="button" data-period="annual">年額で見る</button>
+      </div>
+      <div class="helper">月額で入力した場合は、年間効果も自動で表示します。</div>
+    </div>
+
+    <div class="field">
+      <div class="label-row">
+        <div class="label big">② 削減額の出し方</div>
+      </div>
+      <div class="mode-grid" role="group" aria-label="削減額の入力方法">
+        <button class="mode-btn active" type="button" data-mode="direct">削減額を入力<small>例：月5万円削減</small></button>
+        <button class="mode-btn" type="button" data-mode="after">削減後で計算<small>例：30万円→24万円</small></button>
+        <button class="mode-btn" type="button" data-mode="rate">削減率で計算<small>例：10%削減</small></button>
+      </div>
+    </div>
+
+    <div class="field" id="field-current">
+      <div class="label-row">
+        <div class="label big">③ 現在の支出額（円）</div>
+      </div>
+      <div class="helper" id="currentHelper">削減後金額・削減率から計算する場合に使用します。削減額を直接入力する場合は、削減率の参考表示に使います。</div>
+      <div class="range-row">
+        <input id="currentRange" type="range" min="0" max="3000000" step="1000" value="300000" />
+        <div class="yen-input">
+          <span class="prefix">¥</span>
+          <input id="currentExpense" class="money" type="text" inputmode="numeric" value="300,000" autocomplete="off" />
+        </div>
+      </div>
+    </div>
+
+    <div class="field" id="field-reduction-direct">
+      <div class="label-row">
+        <div class="label big">④ 削減できる金額（円）</div>
+      </div>
+      <div class="range-row">
+        <input id="reductionRange" type="range" min="0" max="1000000" step="1000" value="50000" />
+        <div class="yen-input">
+          <span class="prefix">¥</span>
+          <input id="reductionAmount" class="money" type="text" inputmode="numeric" value="50,000" autocomplete="off" />
+        </div>
+      </div>
+    </div>
+
+    <div class="field" id="field-reduction-after" hidden>
+      <div class="label-row">
+        <div class="label big">④ 削減後の支出額（円）</div>
+      </div>
+      <div class="range-row">
+        <input id="afterRange" type="range" min="0" max="3000000" step="1000" value="250000" />
+        <div class="yen-input">
+          <span class="prefix">¥</span>
+          <input id="afterExpense" class="money" type="text" inputmode="numeric" value="250,000" autocomplete="off" />
+        </div>
+      </div>
+    </div>
+
+    <div class="field" id="field-reduction-rate" hidden>
+      <div class="label-row">
+        <div class="label big">④ 削減率（％）</div>
+      </div>
+      <div class="range-row">
+        <input id="rateRange" type="range" min="0" max="80" step="0.1" value="10" />
+        <div class="pctbox">
+          <input id="rateInput" class="pct" type="text" inputmode="decimal" value="10.0" autocomplete="off" />
+          <span class="unit">%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="field" id="field-cmr">
+      <div class="label-row">
+        <div class="label big">⑤ 御社の限界利益率（％）</div>
+        <span id="lastDateCmr" class="last-date">前回入力日：ー</span>
+      </div>
+      <div class="helper">
+        ※支出削減額は利益に直接効きます。これを売上換算するには、<strong>限界利益率</strong>で割り戻します。<br>
+        ※限界利益率が不明な場合は、まず下の業種平均を仮置きし、後で御社の数値に置き換えてください。
+      </div>
+      <div class="range-row">
+        <input id="cmr" type="range" min="5" max="95" step="0.1" value="43.6" />
+        <div class="pctbox">
+          <input id="cmrInput" class="pct" type="text" inputmode="decimal" value="43.6" autocomplete="off" />
+          <span class="unit">%</span>
+        </div>
+      </div>
+
+      <div class="helper" style="margin-top:8px;">参考：産業ごとの全国平均</div>
+      <div class="chip-grid" id="chips">
+        <button class="chip" type="button" data-pct="43.6"><span class="nm">全産業</span><span class="val">43.6%</span></button>
+        <button class="chip" type="button" data-pct="64.6"><span class="nm">漁業</span><span class="val">64.6%</span></button>
+        <button class="chip" type="button" data-pct="39.9"><span class="nm">建設業</span><span class="val">39.9%</span></button>
+        <button class="chip" type="button" data-pct="44.8"><span class="nm">製造業</span><span class="val">44.8%</span></button>
+        <button class="chip" type="button" data-pct="20.5"><span class="nm">卸売業</span><span class="val">20.5%</span></button>
+        <button class="chip" type="button" data-pct="32.0"><span class="nm">小売業</span><span class="val">32.0%</span></button>
+        <button class="chip" type="button" data-pct="79.2"><span class="nm">宿泊業</span><span class="val">79.2%</span></button>
+        <button class="chip" type="button" data-pct="64.1"><span class="nm">飲食業</span><span class="val">64.1%</span></button>
+      </div>
+    </div>
+
+    <div class="field">
+      <button id="calc" class="btn" type="button">支出削減効果を売上換算する</button>
+    </div>
+
+    <div class="result" id="resultArea" hidden>
+      <div class="summary-box">
+        <div class="result-label">売上換算額</div>
+        <div class="amount" id="salesEquivalent">—</div>
+        <div class="subamount" id="salesSub">—</div>
+      </div>
+
+      <div class="statement" id="statement">
+        <span id="stmtTop"></span><br>
+        <span id="stmtBottom"></span>
+      </div>
+
+      <div class="viz-card" id="vizCard">
+        <div class="viz-title">売上換算額のビフォーアフター</div>
+        <div class="viz-sub">現在の支出と削減後の支出を、それぞれ「必要な売上相当額」に置き換えて比較します。</div>
+
+        <div class="bar-compare">
+          <div class="bar-row">
+            <div class="bar-label">見直し前</div>
+            <div class="bar-track">
+              <div class="bar-fill before" id="beforeBar" style="width:100%;"></div>
+            </div>
+            <div class="bar-value" id="beforeValue">¥0</div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-label">見直し後</div>
+            <div class="bar-track">
+              <div class="bar-fill after" id="afterBar" style="width:0%;"></div>
+            </div>
+            <div class="bar-value" id="afterValue">¥0</div>
+          </div>
+        </div>
+
+        <div class="delta-band" id="deltaBand">
+          売らずに済む売上相当額：<strong id="savedValue">¥0</strong>
+          <span id="savedRateText">（0.0%相当減）</span>
+        </div>
+
+        <div class="stack-wrap">
+          <div class="stack-track">
+            <div class="stack-after" id="stackAfter" style="width:0%;"></div>
+            <div class="stack-saved" id="stackSaved" style="width:0%;"></div>
+          </div>
+          <div class="stack-legend">
+            <div class="legend-item">
+              <span class="legend-dot after"></span>
+              <div>
+                <strong>見直し後も必要な売上相当額</strong>
+                <span id="legendAfterText">¥0</span>
+              </div>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot saved"></span>
+              <div>
+                <strong>売らずに済む売上相当額</strong>
+                <span id="legendSavedText">¥0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight" id="insightText">
+        削減できた支出は、売上を増やさなくても利益を押し上げます。値上げ・販売増が難しい場面ほど、固定費の見直し効果は経営者に伝わりやすくなります。
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi good">
+          <div class="k">支出削減額</div>
+          <div class="v" id="savingKpi">—</div>
+        </div>
+        <div class="kpi">
+          <div class="k">削減率</div>
+          <div class="v" id="savingRateKpi">—</div>
+        </div>
+        <div class="kpi">
+          <div class="k">年間の利益改善額</div>
+          <div class="v" id="annualSavingKpi">—</div>
+        </div>
+        <div class="kpi">
+          <div class="k">年間の売上換算額</div>
+          <div class="v" id="annualSalesKpi">—</div>
+        </div>
+      </div>
+
+      <div class="avgrow-container" id="avgRow">
+        <div class="label-row" style="margin-bottom:0;">
+          <div class="avg-label">平均単価（任意）</div>
+          <span id="lastDateAvg" class="last-date">前回入力日：ー</span>
+        </div>
+        <div class="helper">平均単価を入れると「売らずに済んだ販売数」に換算できます。</div>
+        <div class="input-row-right">
+          <div class="yen-input small">
+            <span class="prefix">¥</span>
+            <input id="avgPrice" class="money" type="text" inputmode="numeric" placeholder="例：10,000" autocomplete="off" />
+          </div>
+        </div>
+        <div class="metrics" id="metrics">
+          ＝ 売らずに済んだ販売数： <b id="unitsAvoided">—</b><br>
+          <span id="unitsAvoidedAnnual">年間：—</span>
+        </div>
+      </div>
+
+      <div style="margin-top:18px; padding-top:18px; border-top:1px dashed #d9eaed;">
+        <div style="font-size:13px; font-weight:800; color:#578899; margin-bottom:8px;">次のステップ</div>
+        <button id="btnToPortal" class="btn next-step" type="button">他の黒字経営ツールも確認する ➡</button>
+      </div>
+
+      <div class="note">
+        ※ 計算式：<b>売上換算額 ＝ 支出削減額 ÷（限界利益率 / 100）</b><br>
+        ※ グラフは「現在の支出額 ÷ 限界利益率」と「削減後の支出額 ÷ 限界利益率」を比較しています。<br>
+        ※ 支出削減額は、固定費・経費等の削減により利益が改善する金額として扱っています。売上原価・変動費の削減を扱う場合は、実務上は粗利率・限界利益率への影響も併せて確認してください。<br>
+        ※ 各産業平均は令和7年版TKC経営指標（BAST）を参照する想定です。
+      </div>
+    </div>
+
+    <div class="btn-row" id="actionRow">
+      <button id="copy" class="btn secondary" type="button">コピー</button>
+      <button id="reset" class="btn secondary" type="button">リセット</button>
+      <button id="print" class="btn secondary" type="button">印刷</button>
+    </div>
+  </section>
+
+  <footer class="mk-mini">
+    © <span id="cpy-year">2026</span>
+    <a href="https://www.matsumoto-kaikei.or.jp/" target="_blank" rel="noopener license">税理士法人松本会計事務所</a> ｜
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener">CC BY-NC-SA 4.0</a> ｜
+    <a href="/tool-portal/terms.html" target="_blank" rel="noopener">利用条件</a> ｜
+    <span id="build-rev">r1</span>（<span id="last-updated-date"></span>）
+  </footer>
+</div>
+
+<style>
+:root{ --mk-brand:#578899; --mk-line:#e2e8f0; --mk-ink:#0f172a; --mk-muted:#64748b; }
+.mk-nav{position:fixed; left:0; right:0; bottom:0; z-index:999; padding:10px 12px calc(10px + env(safe-area-inset-bottom)); background:rgba(255,255,255,.92); border-top:1px solid var(--mk-line); backdrop-filter:saturate(180%) blur(10px);}
+.mk-nav .inner{max-width:1100px; margin:0 auto; display:flex; gap:10px; align-items:center; justify-content:space-between;}
+.mk-nav .left{display:flex; flex-direction:column; gap:2px; min-width:0;}
+.mk-nav .hint{font-size:11px; color:var(--mk-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.mk-nav .btns{display:flex; gap:8px; flex:0 0 auto;}
+.mk-nav a{display:inline-flex; align-items:center; justify-content:center; height:36px; padding:0 12px; border-radius:12px; border:1px solid var(--mk-line); text-decoration:none; font-weight:800; color:var(--mk-ink); background:#fff;}
+.mk-nav a.primary{border-color:transparent; background:linear-gradient(135deg, var(--mk-brand) 0%, #7aa5b4 100%); color:#fff;}
+@media (max-width:420px){.mk-nav .hint{display:none;}.mk-nav a{height:34px; padding:0 10px; font-size:12px;}}
+body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
+</style>
+
+<div class="mk-nav" id="mk-nav" hidden>
+  <div class="inner">
+    <div class="left">
+      <div style="font-weight:900;">松本会計ツール</div>
+      <div class="hint" id="mk-hint">ポータルへ戻る</div>
+    </div>
+    <div class="btns">
+      <a href="https://takatrp.github.io/tool-portal/" id="mk-back">← ポータル</a>
+      <a href="https://takatrp.github.io/tool-portal/" id="mk-next" class="primary">一覧へ →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+  const currentRange = $('#currentRange');
+  const currentExpense = $('#currentExpense');
+  const reductionRange = $('#reductionRange');
+  const reductionAmount = $('#reductionAmount');
+  const afterRange = $('#afterRange');
+  const afterExpense = $('#afterExpense');
+  const rateRange = $('#rateRange');
+  const rateInput = $('#rateInput');
+  const cmrRange = $('#cmr');
+  const cmrInput = $('#cmrInput');
+  const avgPriceEl = $('#avgPrice');
+
+  const resultArea = $('#resultArea');
+  const actionRow = $('#actionRow');
+  const salesEquivalentEl = $('#salesEquivalent');
+  const salesSubEl = $('#salesSub');
+  const stmtTop = $('#stmtTop');
+  const stmtBottom = $('#stmtBottom');
+  const savingKpi = $('#savingKpi');
+  const savingRateKpi = $('#savingRateKpi');
+  const annualSavingKpi = $('#annualSavingKpi');
+  const annualSalesKpi = $('#annualSalesKpi');
+  const unitsAvoided = $('#unitsAvoided');
+  const unitsAvoidedAnnual = $('#unitsAvoidedAnnual');
+  const lastDateCmr = $('#lastDateCmr');
+  const lastDateAvg = $('#lastDateAvg');
+
+  const beforeBar = $('#beforeBar');
+  const afterBar = $('#afterBar');
+  const beforeValue = $('#beforeValue');
+  const afterValue = $('#afterValue');
+  const savedValue = $('#savedValue');
+  const savedRateText = $('#savedRateText');
+  const stackAfter = $('#stackAfter');
+  const stackSaved = $('#stackSaved');
+  const legendAfterText = $('#legendAfterText');
+  const legendSavedText = $('#legendSavedText');
+
+  const STORAGE_KEY_CMR = 'costReduction_cmrPct_v1';
+  const STORAGE_KEY_AVG_PRICE = 'costReduction_avgPrice_v1';
+  const STORAGE_KEY_DATE_CMR = 'costReduction_cmrDate_v1';
+  const STORAGE_KEY_DATE_AVG = 'costReduction_avgDate_v1';
+
+  let period = 'monthly';
+  let mode = 'direct';
+  let lastSaving = 0;
+  let lastSalesEquivalent = 0;
+  let lastAnnualSaving = 0;
+  let lastAnnualSalesEquivalent = 0;
+  let lastBeforeSalesEquivalent = 0;
+  let lastAfterSalesEquivalent = 0;
+
+  const clamp = (v,min,max) => Math.max(min,Math.min(max,v));
+  const parseMoney = (t) => Number(String(t ?? '').replace(/[^\d.-]/g,''));
+  const parsePct = (t) => Number(String(t ?? '').replace('%','').replace(',','.').trim());
+  const formatPlainJPY = (n) => Number(n || 0).toLocaleString('ja-JP',{maximumFractionDigits:0});
+  const formatJPY = (n) => Number(n || 0).toLocaleString('ja-JP',{style:'currency',currency:'JPY',maximumFractionDigits:0});
+  const formatPct = (n) => `${Number(n || 0).toFixed(1)}%`;
+  const periodLabel = () => period === 'monthly' ? '月' : '年';
+  const annualFactor = () => period === 'monthly' ? 12 : 1;
+
+  function getTodayStr(){
+    const d = new Date();
+    return `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;
+  }
+  function updateDateLabel(el,dateStr){
+    el.textContent = dateStr ? `前回入力日：${dateStr}` : '前回入力日：ー';
+  }
+
+  (function initFooter(){
+    const y = new Date().getFullYear();
+    const lm = new Date(document.lastModified);
+    $('#cpy-year').textContent = y;
+    $('#last-updated-date').textContent = `${lm.getFullYear()}-${String(lm.getMonth()+1).padStart(2,'0')}-${String(lm.getDate()).padStart(2,'0')}`;
+  })();
+
+  function setupMoneyPair(rangeEl,inputEl){
+    rangeEl.addEventListener('input',() => {
+      inputEl.value = formatPlainJPY(+rangeEl.value);
+      if(inputEl === currentExpense && mode === 'after') syncAfterMax();
+    });
+    inputEl.addEventListener('input',(e) => {
+      const v = parseMoney(e.target.value);
+      if(isNaN(v)) return;
+      e.target.value = formatPlainJPY(v);
+      rangeEl.value = clamp(v,+rangeEl.min,+rangeEl.max);
+      if(inputEl === currentExpense && mode === 'after') syncAfterMax();
+    });
+  }
+  setupMoneyPair(currentRange,currentExpense);
+  setupMoneyPair(reductionRange,reductionAmount);
+  setupMoneyPair(afterRange,afterExpense);
+
+  function setupPctPair(rangeEl,inputEl,maxDecimals=1){
+    rangeEl.addEventListener('input',() => {
+      const v = +rangeEl.value;
+      inputEl.value = v.toFixed(maxDecimals);
+    });
+    inputEl.addEventListener('input',() => {
+      const v = parsePct(inputEl.value);
+      if(!isNaN(v) && v >= +rangeEl.min && v <= +rangeEl.max){
+        rangeEl.value = v.toFixed(maxDecimals);
+      }
+    });
+    inputEl.addEventListener('blur',() => {
+      const v = parsePct(inputEl.value);
+      if(isNaN(v)){
+        inputEl.value = (+rangeEl.value).toFixed(maxDecimals);
+        return;
+      }
+      const c = clamp(v,+rangeEl.min,+rangeEl.max);
+      rangeEl.value = c.toFixed(maxDecimals);
+      inputEl.value = c.toFixed(maxDecimals);
+    });
+  }
+  setupPctPair(rateRange,rateInput,1);
+  setupPctPair(cmrRange,cmrInput,1);
+
+  function loadCmr(){
+    try{
+      const v = parsePct(localStorage.getItem(STORAGE_KEY_CMR));
+      const d = localStorage.getItem(STORAGE_KEY_DATE_CMR);
+      updateDateLabel(lastDateCmr,d);
+      if(!isNaN(v)) return clamp(v,+cmrRange.min,+cmrRange.max);
+    }catch{}
+    updateDateLabel(lastDateCmr,null);
+    return 43.6;
+  }
+  function saveCmr(v){
+    try{
+      localStorage.setItem(STORAGE_KEY_CMR,Number(v).toFixed(1));
+      const today = getTodayStr();
+      localStorage.setItem(STORAGE_KEY_DATE_CMR,today);
+      updateDateLabel(lastDateCmr,today);
+    }catch{}
+  }
+  function loadAvgPrice(){
+    try{
+      const v = localStorage.getItem(STORAGE_KEY_AVG_PRICE);
+      const d = localStorage.getItem(STORAGE_KEY_DATE_AVG);
+      updateDateLabel(lastDateAvg,d);
+      if(v) avgPriceEl.value = v;
+    }catch{}
+  }
+  function saveAvgPrice(){
+    const v = avgPriceEl.value;
+    if(!v) return;
+    try{
+      localStorage.setItem(STORAGE_KEY_AVG_PRICE,v);
+      const today = getTodayStr();
+      localStorage.setItem(STORAGE_KEY_DATE_AVG,today);
+      updateDateLabel(lastDateAvg,today);
+    }catch{}
+  }
+
+  const initCmr = loadCmr();
+  cmrRange.value = initCmr.toFixed(1);
+  cmrInput.value = initCmr.toFixed(1);
+  loadAvgPrice();
+
+  cmrRange.addEventListener('change',() => saveCmr(+cmrRange.value));
+  cmrInput.addEventListener('blur',() => saveCmr(parsePct(cmrInput.value)));
+
+  $$('.chip').forEach((b) => {
+    b.addEventListener('click',() => {
+      const v = +b.dataset.pct;
+      cmrRange.value = v.toFixed(1);
+      cmrInput.value = v.toFixed(1);
+      saveCmr(v);
+    });
+  });
+
+  function syncAfterMax(){
+    const cur = parseMoney(currentExpense.value) || 0;
+    afterRange.max = Math.max(cur,1);
+    const after = parseMoney(afterExpense.value) || 0;
+    if(after > cur){
+      afterExpense.value = formatPlainJPY(cur);
+      afterRange.value = cur;
+    }
+  }
+
+  function setMode(nextMode){
+    mode = nextMode;
+    $$('.mode-btn').forEach((b) => b.classList.toggle('active',b.dataset.mode === mode));
+    $('#field-reduction-direct').hidden = mode !== 'direct';
+    $('#field-reduction-after').hidden = mode !== 'after';
+    $('#field-reduction-rate').hidden = mode !== 'rate';
+    $('#currentHelper').textContent = mode === 'direct'
+      ? '削減額を直接入力する場合、現在の支出額は削減率の参考表示に使用します。未入力でも計算できます。'
+      : '現在の支出額をもとに、削減額と売上換算額を計算します。';
+    syncAfterMax();
+  }
+
+  $$('.mode-btn').forEach((b) => b.addEventListener('click',() => setMode(b.dataset.mode)));
+
+  $$('.seg-btn').forEach((b) => {
+    b.addEventListener('click',() => {
+      period = b.dataset.period;
+      $$('.seg-btn').forEach((x) => x.classList.toggle('active',x.dataset.period === period));
+      if(!resultArea.hidden) calc(false);
+    });
+  });
+
+  avgPriceEl.addEventListener('input',() => {
+    const v = parseMoney(avgPriceEl.value);
+    if(!isNaN(v)) avgPriceEl.value = formatPlainJPY(v);
+    updateUnits();
+  });
+  avgPriceEl.addEventListener('blur',saveAvgPrice);
+
+  function getSavingAmount(){
+    const cur = parseMoney(currentExpense.value) || 0;
+    if(mode === 'direct'){
+      return Math.max(0,parseMoney(reductionAmount.value) || 0);
+    }
+    if(mode === 'after'){
+      const after = parseMoney(afterExpense.value) || 0;
+      return Math.max(0,cur - after);
+    }
+    if(mode === 'rate'){
+      const rate = parsePct(rateInput.value) || 0;
+      return Math.max(0,cur * rate / 100);
+    }
+    return 0;
+  }
+
+  function getSavingRate(saving){
+    const cur = parseMoney(currentExpense.value) || 0;
+    if(cur <= 0) return null;
+    return saving / cur * 100;
+  }
+
+  function updateUnits(){
+    const avg = parseMoney(avgPriceEl.value);
+    if(!avg || avg <= 0 || !lastSalesEquivalent){
+      unitsAvoided.textContent = '—';
+      unitsAvoidedAnnual.textContent = '年間：—';
+      return;
+    }
+    unitsAvoided.textContent = `${(lastSalesEquivalent / avg).toFixed(1)}個分`;
+    unitsAvoidedAnnual.textContent = `年間：${(lastAnnualSalesEquivalent / avg).toFixed(1)}個分`;
+  }
+
+  function updateGraph(beforeSales, afterSales, salesEquivalent, savingRate){
+    const beforeSafe = Math.max(beforeSales, 1);
+    const afterPct = Math.max(0, Math.min(100, afterSales / beforeSafe * 100));
+    const savedPct = Math.max(0, Math.min(100, salesEquivalent / beforeSafe * 100));
+
+    beforeBar.style.width = '100%';
+    afterBar.style.width = `${afterPct}%`;
+
+    beforeValue.textContent = formatJPY(beforeSales);
+    afterValue.textContent = formatJPY(afterSales);
+    savedValue.textContent = formatJPY(salesEquivalent);
+    savedRateText.textContent = savingRate === null ? '' : `（${formatPct(savingRate)}相当減）`;
+
+    stackAfter.style.width = `${afterPct}%`;
+    stackSaved.style.width = `${savedPct}%`;
+
+    legendAfterText.textContent = formatJPY(afterSales);
+    legendSavedText.textContent = formatJPY(salesEquivalent);
+  }
+
+  function calc(shouldScroll=true){
+    const current = parseMoney(currentExpense.value) || 0;
+    const saving = getSavingAmount();
+    const pct = parsePct(cmrInput.value);
+
+    if(isNaN(current) || current <= 0){
+      alert('現在の支出額を正しく入力してください。');
+      currentExpense.focus();
+      return;
+    }
+    if(isNaN(saving) || saving <= 0){
+      alert('削減できる金額を正しく入力してください。');
+      return;
+    }
+    if(saving > current){
+      alert('削減額が現在の支出額を上回っています。現在の支出額または削減額を見直してください。');
+      return;
+    }
+    if(isNaN(pct) || pct <= 0){
+      alert('限界利益率を正しく入力してください。');
+      cmrInput.focus();
+      return;
+    }
+
+    const after = Math.max(0, current - saving);
+    const rate = pct / 100;
+    const beforeSalesEquivalent = Math.ceil(current / rate);
+    const afterSalesEquivalent = Math.ceil(after / rate);
+    const salesEquivalent = Math.ceil(saving / rate);
+    const annualSaving = saving * annualFactor();
+    const annualSalesEquivalent = salesEquivalent * annualFactor();
+    const savingRate = getSavingRate(saving);
+
+    lastSaving = saving;
+    lastSalesEquivalent = salesEquivalent;
+    lastAnnualSaving = annualSaving;
+    lastAnnualSalesEquivalent = annualSalesEquivalent;
+    lastBeforeSalesEquivalent = beforeSalesEquivalent;
+    lastAfterSalesEquivalent = afterSalesEquivalent;
+
+    const pLabel = periodLabel();
+    salesEquivalentEl.textContent = formatJPY(salesEquivalent);
+    salesSubEl.textContent = `${pLabel}あたり、売らずに済む売上相当額`;
+
+    stmtTop.innerHTML = `${pLabel}${formatJPY(saving)} の支出削減は、`;
+    stmtBottom.innerHTML = `御社では <span class="em">${pLabel}${formatJPY(salesEquivalent)} の売上を作らずに済む</span> のと同じ効果です。`;
+
+    savingKpi.textContent = `${pLabel}${formatJPY(saving)}`;
+    savingRateKpi.textContent = savingRate === null ? '—' : formatPct(savingRate);
+    annualSavingKpi.textContent = formatJPY(annualSaving);
+    annualSalesKpi.textContent = formatJPY(annualSalesEquivalent);
+
+    $('#insightText').textContent = makeInsightText(current, after, saving, beforeSalesEquivalent, afterSalesEquivalent, salesEquivalent, annualSaving, annualSalesEquivalent, savingRate);
+    updateGraph(beforeSalesEquivalent, afterSalesEquivalent, salesEquivalent, savingRate);
+
+    resultArea.hidden = false;
+    actionRow.classList.add('show');
+    updateUnits();
+
+    if(shouldScroll) resultArea.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+
+  function makeInsightText(current, after, saving, beforeSalesEquivalent, afterSalesEquivalent, salesEquivalent, annualSaving, annualSalesEquivalent, savingRate){
+    if(period === 'monthly'){
+      return `月${formatJPY(current)}の支出は、御社では月${formatJPY(beforeSalesEquivalent)}の売上相当です。これを月${formatJPY(after)}まで下げられるなら、必要な売上相当額は月${formatJPY(afterSalesEquivalent)}まで下がり、月${formatJPY(salesEquivalent)}、年間${formatJPY(annualSalesEquivalent)}の売上を作らずに済む計算です。`;
+    }
+    return `年${formatJPY(current)}の支出は、御社では年${formatJPY(beforeSalesEquivalent)}の売上相当です。これを年${formatJPY(after)}まで下げられるなら、必要な売上相当額は年${formatJPY(afterSalesEquivalent)}まで下がり、年${formatJPY(salesEquivalent)}の売上を作らずに済む計算です。`;
+  }
+
+  $('#calc').addEventListener('click',() => calc(true));
+  [currentExpense,reductionAmount,afterExpense,rateInput,cmrInput].forEach((el) => {
+    el.addEventListener('keydown',(e) => {
+      if(e.key === 'Enter'){
+        e.preventDefault();
+        calc(true);
+      }
+    });
+  });
+
+  $('#sampleBtn').addEventListener('click',() => {
+    period = 'monthly';
+    $$('.seg-btn').forEach((x) => x.classList.toggle('active',x.dataset.period === period));
+    setMode('after');
+    currentExpense.value = formatPlainJPY(300000);
+    currentRange.value = 300000;
+    afterExpense.value = formatPlainJPY(250000);
+    afterRange.value = 250000;
+    cmrRange.value = '43.6';
+    cmrInput.value = '43.6';
+    calc(true);
+  });
+
+  $('#copy').addEventListener('click',async() => {
+    if(resultArea.hidden) return;
+    const p = periodLabel();
+    const text = [
+      `支出削減効果の売上換算`,
+      `削減額：${p}${formatJPY(lastSaving)}`,
+      `売上換算額：${p}${formatJPY(lastSalesEquivalent)}`,
+      `年間利益改善額：${formatJPY(lastAnnualSaving)}`,
+      `年間売上換算額：${formatJPY(lastAnnualSalesEquivalent)}`,
+      `限界利益率：${cmrInput.value}%`,
+      avgPriceEl.value ? `売らずに済んだ販売数：${unitsAvoided.textContent}／${unitsAvoidedAnnual.textContent}` : ''
+    ].filter(Boolean).join('\n');
+
+    try{
+      if(navigator.clipboard?.writeText){
+        await navigator.clipboard.writeText(text);
+      }else{
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      alert('結果をコピーしました。');
+    }catch{
+      alert('コピーに失敗しました。');
+    }
+  });
+
+  $('#reset').addEventListener('click',() => {
+    period = 'monthly';
+    $$('.seg-btn').forEach((x) => x.classList.toggle('active',x.dataset.period === period));
+    setMode('direct');
+    currentExpense.value = formatPlainJPY(300000);
+    currentRange.value = 300000;
+    reductionAmount.value = formatPlainJPY(50000);
+    reductionRange.value = 50000;
+    afterExpense.value = formatPlainJPY(250000);
+    afterRange.value = 250000;
+    rateInput.value = '10.0';
+    rateRange.value = 10;
+    const cmr0 = loadCmr();
+    cmrRange.value = cmr0.toFixed(1);
+    cmrInput.value = cmr0.toFixed(1);
+    avgPriceEl.value = '';
+    try{
+      localStorage.removeItem(STORAGE_KEY_AVG_PRICE);
+      localStorage.removeItem(STORAGE_KEY_DATE_AVG);
+    }catch{}
+    updateDateLabel(lastDateAvg,null);
+    lastSaving = lastSalesEquivalent = lastAnnualSaving = lastAnnualSalesEquivalent = 0;
+    resultArea.hidden = true;
+    actionRow.classList.remove('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  $('#print').addEventListener('click',() => {
+    if(resultArea.hidden) return;
+    window.print();
+  });
+
+  $('#btnToPortal').addEventListener('click',() => {
+    window.open('https://takatrp.github.io/tool-portal/','_blank');
+  });
+
+  $('#btnToPortal').addEventListener('contextmenu',(e) => e.preventDefault());
+
+  (function initNav(){
+    const params = new URLSearchParams(location.search);
+    const portal = params.get('portal') || (function(){ try{return localStorage.getItem('mk_portal_url');}catch(e){return null;} })() || 'https://takatrp.github.io/tool-portal/';
+    const nav = document.getElementById('mk-nav');
+    const back = document.getElementById('mk-back');
+    const nextBtn = document.getElementById('mk-next');
+    if(back) back.href = portal;
+    if(nextBtn) nextBtn.href = portal;
+    try{ localStorage.setItem('mk_portal_url',portal); }catch(e){}
+    if(nav) nav.hidden = false;
+  })();
+
+  // URLパラメータからの簡易連携
+  window.addEventListener('DOMContentLoaded',() => {
+    const params = new URLSearchParams(location.search);
+    const saving = params.get('saving') || params.get('reduction');
+    const cmr = params.get('cmr');
+    const unitPrice = params.get('unit_price');
+    const p = params.get('period');
+
+    if(p === 'monthly' || p === 'annual'){
+      period = p;
+      $$('.seg-btn').forEach((x) => x.classList.toggle('active',x.dataset.period === period));
+    }
+    if(saving){
+      const v = Number(saving);
+      if(!isNaN(v) && v > 0){
+        setMode('direct');
+        reductionAmount.value = formatPlainJPY(v);
+        reductionRange.value = clamp(v,+reductionRange.min,+reductionRange.max);
+      }
+    }
+    if(cmr){
+      const v = Number(cmr);
+      if(!isNaN(v) && v > 0){
+        const c = clamp(v,+cmrRange.min,+cmrRange.max);
+        cmrRange.value = c.toFixed(1);
+        cmrInput.value = c.toFixed(1);
+      }
+    }
+    if(unitPrice){
+      const v = Number(unitPrice);
+      if(!isNaN(v) && v > 0) avgPriceEl.value = formatPlainJPY(v);
+    }
+    if(saving) calc(true);
+  });
+</script>
+<script src="https://takatrp.github.io/tool-portal/mk-nav.js" defer></script>
+</body>
+</html>
