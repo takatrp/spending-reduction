@@ -93,14 +93,14 @@
     margin:0 0 6px 2px;
   }
   .label.big{
-    font-size:clamp(19px,4.8vw,25px);
+    font-size:16px;
     font-weight:900;
     color:#324245;
   }
   .helper{
-    font-size:clamp(14px,3.7vw,17px);
+    font-size:12px;
     color:#6a7a7d;
-    margin:8px 2px 0;
+    margin:6px 2px 0;
     line-height:1.65;
   }
   .helper strong{color:#2f4448}
@@ -115,20 +115,21 @@
   .period-switch{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin:10px 0 2px;
+    gap:8px;
+    margin:8px 0 2px;
   }
 
   .seg-btn{
     border:1px solid var(--line);
     background:#f8fcfd;
     color:#456166;
-    border-radius:16px;
-    padding:18px 14px;
+    border-radius:12px;
+    padding:12px 10px;
     font-weight:900;
-    font-size:17px;
+    font-size:16px;
     cursor:pointer;
-    line-height:1.2;
+    line-height:1.15;
+    min-height:44px;
   }
   .seg-btn.active{
     background:linear-gradient(180deg,#7aa2b0,#578899);
@@ -140,19 +141,24 @@
   .mode-grid{
     display:grid;
     grid-template-columns:1fr;
-    gap:12px;
-    margin-top:10px;
+    gap:8px;
+    margin-top:8px;
   }
   .mode-btn{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
     border:1px solid var(--line);
     background:#f8fcfd;
     color:#456166;
-    border-radius:18px;
-    padding:18px 18px;
+    border-radius:12px;
+    padding:11px 12px;
     font-weight:900;
-    font-size:17px;
+    font-size:15px;
     cursor:pointer;
-    line-height:1.25;
+    line-height:1.2;
+    min-height:46px;
     text-align:left;
   }
   .mode-btn.active{
@@ -162,12 +168,24 @@
     box-shadow:0 8px 18px rgba(35,80,90,.14);
   }
   .mode-btn small{
-    display:block;
-    font-size:12px;
+    display:inline;
+    margin-top:0;
+    font-size:11px;
+    line-height:1.2;
+    white-space:nowrap;
+    opacity:.82;
     font-weight:800;
-    opacity:.9;
-    margin-top:8px;
-    line-height:1.35;
+  }
+  @media (max-width:360px){
+    .mode-btn{
+      display:block;
+      padding:10px 12px;
+    }
+    .mode-btn small{
+      display:block;
+      margin-top:3px;
+      white-space:normal;
+    }
   }
 
   .range-row{
@@ -298,7 +316,7 @@
     border:1px solid var(--line);
     border-radius:999px;
     font-size:12px;
-    padding:8px 12px;
+    padding:7px 10px;
     font-weight:900;
     cursor:pointer;
     line-height:1;
@@ -693,7 +711,7 @@
     <div class="field">
       <div class="label-row">
         <div class="label big">① 計算単位</div>
-        <button id="sampleBtn" class="tiny-btn" type="button">例を入れる</button>
+        <button id="sampleBtn" class="tiny-btn" type="button">サンプル</button>
       </div>
 
       <div class="period-switch" role="group" aria-label="計算単位">
@@ -951,7 +969,7 @@
     <a href="https://www.matsumoto-kaikei.or.jp/" target="_blank" rel="noopener license">税理士法人松本会計事務所</a> ｜ 
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener">CC BY-NC-SA 4.0</a> ｜ 
     <a href="/tool-portal/terms.html" target="_blank" rel="noopener">利用条件</a> ｜ 
-    <span id="build-rev">r5</span>（<span id="last-updated-date"></span>）
+    <span id="build-rev">r6</span>（<span id="last-updated-date"></span>）
   </footer>
 </div>
 
