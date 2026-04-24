@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>支出削減効果見える化ツール</title>
 
-<link rel="icon" href="favicon192192.png" sizes="192x192" />
-<link rel="apple-touch-icon" href="favicon192192.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="favicon192192.png" />
+<link rel="shortcut icon" type="image/png" href="favicon192192.png" />
+<link rel="apple-touch-icon" sizes="192x192" href="favicon192192.png" />
 <meta name="theme-color" content="#578899" />
 
 <style>
@@ -32,7 +33,9 @@
     font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",Segoe UI,Roboto,Arial,sans-serif;
     background:var(--bg);
     color:var(--ink);
+    padding-bottom:calc(62px + env(safe-area-inset-bottom));
   }
+
   .wrap{
     padding:max(12px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));
     max-width:620px;
@@ -40,15 +43,38 @@
   }
 
   header{padding:8px 6px 2px}
-  .brand{display:flex;align-items:center;gap:10px}
-  .logo-link{display:inline-flex;line-height:0;text-decoration:none;flex:0 0 auto}
-  .logo{height:48px;width:auto;object-fit:contain}
-  .title{
-    flex:1;min-width:0;margin:0;
-    font-weight:900;letter-spacing:.01em;line-height:1.22;
-    font-size:clamp(17px,4.6vw,24px);color:#0e2430;
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
   }
-  .subtitle{color:#5a6a6d;font-size:12px;margin:7px 0 0;line-height:1.65}
+  .logo-link{
+    display:inline-flex;
+    line-height:0;
+    text-decoration:none;
+    flex:0 0 auto;
+  }
+  .logo{
+    height:48px;
+    width:auto;
+    object-fit:contain;
+  }
+  .title{
+    flex:1;
+    min-width:0;
+    margin:0;
+    font-weight:900;
+    letter-spacing:.01em;
+    line-height:1.22;
+    font-size:clamp(20px,5.2vw,28px);
+    color:#0e2430;
+  }
+  .subtitle{
+    color:#5a6a6d;
+    font-size:12px;
+    margin:7px 0 0;
+    line-height:1.65;
+  }
 
   .card{
     background:var(--card);
@@ -57,32 +83,54 @@
     padding:18px 16px;
     margin:12px 0 18px;
   }
+
   .field{margin:10px 0 16px}
-  .label-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 6px 2px}
-  .label.big{font-size:16px;font-weight:800;color:#324245}
-  .helper{font-size:12px;color:#6a7a7d;margin:4px 2px 0;line-height:1.65}
+  .label-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:0 0 6px 2px;
+  }
+  .label.big{
+    font-size:clamp(19px,4.8vw,25px);
+    font-weight:900;
+    color:#324245;
+  }
+  .helper{
+    font-size:clamp(14px,3.7vw,17px);
+    color:#6a7a7d;
+    margin:8px 2px 0;
+    line-height:1.65;
+  }
   .helper strong{color:#2f4448}
-  .last-date{font-size:11px;color:#889aa0;font-weight:400;margin-left:auto;white-space:nowrap}
+  .last-date{
+    font-size:11px;
+    color:#889aa0;
+    font-weight:400;
+    margin-left:auto;
+    white-space:nowrap;
+  }
 
   .period-switch{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:8px;
-    margin:8px 0 2px;
+    gap:10px;
+    margin:10px 0 2px;
   }
-  .seg-btn,
-  .mode-btn{
+
+  .seg-btn{
     border:1px solid var(--line);
     background:#f8fcfd;
     color:#456166;
-    border-radius:12px;
-    padding:10px 10px;
+    border-radius:16px;
+    padding:18px 14px;
     font-weight:900;
+    font-size:clamp(20px,4.8vw,24px);
     cursor:pointer;
-    line-height:1.1;
+    line-height:1.2;
   }
-  .seg-btn.active,
-  .mode-btn.active{
+  .seg-btn.active{
     background:linear-gradient(180deg,#7aa2b0,#578899);
     color:#fff;
     border-color:transparent;
@@ -91,78 +139,170 @@
 
   .mode-grid{
     display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:8px;
+    grid-template-columns:1fr;
+    gap:12px;
+    margin-top:10px;
+  }
+  .mode-btn{
+    border:1px solid var(--line);
+    background:#f8fcfd;
+    color:#456166;
+    border-radius:18px;
+    padding:18px 18px;
+    font-weight:900;
+    font-size:clamp(18px,4.6vw,24px);
+    cursor:pointer;
+    line-height:1.25;
+    text-align:left;
+  }
+  .mode-btn.active{
+    background:linear-gradient(180deg,#7aa2b0,#578899);
+    color:#fff;
+    border-color:transparent;
+    box-shadow:0 8px 18px rgba(35,80,90,.14);
+  }
+  .mode-btn small{
+    display:block;
+    font-size:clamp(14px,3.6vw,18px);
+    font-weight:800;
+    opacity:.9;
     margin-top:8px;
+    line-height:1.35;
   }
-  @media (max-width:430px){
-    .mode-grid{grid-template-columns:1fr}
-    .mode-btn{text-align:left;padding:11px 12px}
-  }
-  .mode-btn small{display:block;font-size:10px;font-weight:700;opacity:.78;margin-top:4px}
 
-  .range-row{display:flex;align-items:center;gap:12px;padding:8px 0}
-  input[type="range"]{-webkit-appearance:none;width:100%;height:26px;background:transparent}
+  .range-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:8px 0;
+  }
+  input[type="range"]{
+    -webkit-appearance:none;
+    width:100%;
+    height:26px;
+    background:transparent;
+  }
   input[type="range"]::-webkit-slider-runnable-track{
-    height:6px;background:linear-gradient(90deg,#7aa2b0,#578899);border-radius:999px;
+    height:6px;
+    background:linear-gradient(90deg,#7aa2b0,#578899);
+    border-radius:999px;
   }
   input[type="range"]::-webkit-slider-thumb{
     -webkit-appearance:none;
-    width:26px;height:26px;border-radius:50%;
-    background:#fff;border:2px solid #578899;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background:#fff;
+    border:2px solid #578899;
     margin-top:-10px;
     box-shadow:0 1px 6px rgba(0,0,0,.08);
   }
 
   .yen-input,.pctbox{
-    display:flex;align-items:center;gap:8px;
-    background:#f8fcfd;border:1px solid var(--line);
-    border-radius:12px;padding:8px 10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:#f8fcfd;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:8px 10px;
   }
-  .yen-input .prefix{font-weight:800;color:#578899;border-right:1px solid #e6f1f3;padding-right:10px}
+  .yen-input .prefix{
+    font-weight:800;
+    color:#578899;
+    border-right:1px solid #e6f1f3;
+    padding-right:10px;
+  }
   input.money,input.pct{
-    border:0;outline:none;background:transparent;
-    font-size:20px;font-weight:900;color:#1e2a2d;
-    width:126px;text-align:right;
+    border:0;
+    outline:none;
+    background:transparent;
+    font-size:20px;
+    font-weight:900;
+    color:#1e2a2d;
+    width:126px;
+    text-align:right;
     font-feature-settings:"tnum";
     font-variant-numeric:tabular-nums;
   }
   input.pct{width:76px}
-  .pctbox .unit{font-weight:900;color:#1e2a2d}
-  .input-stack{display:grid;gap:10px;margin-top:8px}
+  .pctbox .unit{
+    font-weight:900;
+    color:#1e2a2d;
+  }
 
   .chip-grid{
-    display:grid;gap:8px;margin-top:8px;
+    display:grid;
+    gap:8px;
+    margin-top:8px;
     grid-template-columns:repeat(4,minmax(0,1fr));
   }
-  @media (max-width:420px){.chip-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:420px){
+    .chip-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
   .chip{
-    display:flex;align-items:center;justify-content:space-between;gap:6px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:6px;
     border:1px solid var(--line);
-    background:#f3fafb;color:#578899;
-    padding:8px 10px;border-radius:12px;
-    font-size:12px;line-height:1.05;
+    background:#f3fafb;
+    color:#578899;
+    padding:8px 10px;
+    border-radius:12px;
+    font-size:12px;
+    line-height:1.05;
     cursor:pointer;
   }
-  .chip .nm{font-weight:800;white-space:nowrap}
-  .chip .val{font-weight:900;color:#1f3a3e;font-feature-settings:"tnum"}
+  .chip .nm{
+    font-weight:800;
+    white-space:nowrap;
+  }
+  .chip .val{
+    font-weight:900;
+    color:#1f3a3e;
+    font-feature-settings:"tnum";
+  }
 
   .btn{
     background:linear-gradient(180deg,#7aa2b0,#578899);
-    color:#fff;font-weight:900;border:0;width:100%;
-    border-radius:12px;padding:16px 18px;font-size:17px;
+    color:#fff;
+    font-weight:900;
+    border:0;
+    width:100%;
+    border-radius:12px;
+    padding:16px 18px;
+    font-size:17px;
     box-shadow:var(--shadow);
     cursor:pointer;
     transition:transform .1s,filter .1s;
   }
   .btn:hover{filter:brightness(1.03)}
-  .btn:active{transform:translateY(1px);filter:brightness(.98)}
-  .btn.secondary{background:#eef7f8;color:#578899;box-shadow:none;border:1px solid var(--line)}
-  .btn.next-step{background:linear-gradient(180deg,#4f7988,#4b7685);box-shadow:0 8px 20px rgba(35,80,90,.16)}
+  .btn:active{
+    transform:translateY(1px);
+    filter:brightness(.98);
+  }
+  .btn.secondary{
+    background:#eef7f8;
+    color:#578899;
+    box-shadow:none;
+    border:1px solid var(--line);
+  }
+  .btn.next-step{
+    background:linear-gradient(180deg,#4f7988,#4b7685);
+    box-shadow:0 8px 20px rgba(35,80,90,.16);
+  }
   .tiny-btn{
-    background:#eef7f8;color:#578899;border:1px solid var(--line);
-    border-radius:999px;font-size:12px;padding:6px 10px;
-    font-weight:800;cursor:pointer;line-height:1;
+    background:#eef7f8;
+    color:#578899;
+    border:1px solid var(--line);
+    border-radius:999px;
+    font-size:clamp(14px,3.8vw,18px);
+    padding:10px 16px;
+    font-weight:900;
+    cursor:pointer;
+    line-height:1;
+    white-space:nowrap;
   }
 
   .result{margin-top:16px}
@@ -173,23 +313,39 @@
     border-radius:16px;
     padding:16px 12px;
   }
-  .result-label{font-size:15px;font-weight:900;color:#324245}
+  .result-label{
+    font-size:15px;
+    font-weight:900;
+    color:#324245;
+  }
   .amount{
     font-size:clamp(26px,8vw,38px);
-    font-weight:950;color:#578899;margin:7px 0 2px;
+    font-weight:950;
+    color:#578899;
+    margin:7px 0 2px;
     font-feature-settings:"tnum";
     font-variant-numeric:tabular-nums;
   }
-  .subamount{font-size:13px;color:#56696d;font-weight:800;line-height:1.7}
+  .subamount{
+    font-size:13px;
+    color:#56696d;
+    font-weight:800;
+    line-height:1.7;
+  }
   .statement{
-    margin-top:12px;background:#e9f6f8;
-    border:1px dashed #7aa2b0;border-radius:12px;
-    padding:12px;color:#0f2022;font-weight:900;
+    margin-top:12px;
+    background:#e9f6f8;
+    border:1px dashed #7aa2b0;
+    border-radius:12px;
+    padding:12px;
+    color:#0f2022;
+    font-weight:900;
     line-height:1.65;
     font-size:clamp(16px,4.6vw,21px);
     text-align:center;
   }
   .statement .em{color:#355f6b}
+
   .viz-card{
     margin-top:14px;
     background:#fff;
@@ -198,7 +354,7 @@
     padding:14px 12px;
   }
   .viz-title{
-    font-size:14px;
+    font-size:15px;
     font-weight:900;
     color:#324245;
     margin-bottom:10px;
@@ -209,14 +365,21 @@
     line-height:1.6;
     margin-bottom:12px;
   }
-  .bar-compare{display:grid;gap:12px}
+  .bar-compare{
+    display:grid;
+    gap:12px;
+  }
   .bar-row{
     display:grid;
     grid-template-columns:74px 1fr auto;
     gap:10px;
     align-items:center;
   }
-  .bar-label{font-size:12px;font-weight:800;color:#5b6d71}
+  .bar-label{
+    font-size:12px;
+    font-weight:800;
+    color:#5b6d71;
+  }
   .bar-track{
     position:relative;
     height:18px;
@@ -225,9 +388,17 @@
     overflow:hidden;
     border:1px solid #e3eef0;
   }
-  .bar-fill{height:100%;border-radius:999px;transition:width .45s ease}
-  .bar-fill.before{background:linear-gradient(90deg,#a7c0c8,#7aa2b0)}
-  .bar-fill.after{background:linear-gradient(90deg,#6daec0,#578899)}
+  .bar-fill{
+    height:100%;
+    border-radius:999px;
+    transition:width .45s ease;
+  }
+  .bar-fill.before{
+    background:linear-gradient(90deg,#a7c0c8,#7aa2b0);
+  }
+  .bar-fill.after{
+    background:linear-gradient(90deg,#6daec0,#578899);
+  }
   .bar-value{
     font-size:12px;
     font-weight:900;
@@ -236,6 +407,19 @@
     text-align:right;
     font-feature-settings:"tnum";
   }
+
+  .delta-band{
+    margin-top:12px;
+    background:#fff8e7;
+    border:1px solid #f2d49b;
+    color:#5a3a08;
+    border-radius:12px;
+    padding:11px 12px;
+    font-size:13px;
+    font-weight:800;
+    line-height:1.7;
+  }
+
   .stack-wrap{
     margin-top:14px;
     background:#f8fcfd;
@@ -252,8 +436,14 @@
     background:#edf4f6;
     border:1px solid #e3eef0;
   }
-  .stack-after{background:linear-gradient(90deg,#6daec0,#578899);transition:width .45s ease}
-  .stack-saved{background:linear-gradient(90deg,#f3c46e,#e0a53a);transition:width .45s ease}
+  .stack-after{
+    background:linear-gradient(90deg,#6daec0,#578899);
+    transition:width .45s ease;
+  }
+  .stack-saved{
+    background:linear-gradient(90deg,#f3c46e,#e0a53a);
+    transition:width .45s ease;
+  }
   .stack-legend{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -268,20 +458,18 @@
     color:#50666b;
     line-height:1.55;
   }
-  .legend-dot{width:12px;height:12px;border-radius:999px;flex:0 0 auto;margin-top:2px}
+  .legend-dot{
+    width:12px;
+    height:12px;
+    border-radius:999px;
+    flex:0 0 auto;
+    margin-top:2px;
+  }
   .legend-dot.after{background:#578899}
   .legend-dot.saved{background:#e0a53a}
-  .legend-item strong{display:block;color:#21353a}
-  .delta-band{
-    margin-top:12px;
-    background:#fff8e7;
-    border:1px solid #f2d49b;
-    color:#5a3a08;
-    border-radius:12px;
-    padding:11px 12px;
-    font-size:13px;
-    font-weight:800;
-    line-height:1.7;
+  .legend-item strong{
+    display:block;
+    color:#21353a;
   }
 
   .insight{
@@ -302,15 +490,27 @@
     gap:10px;
     margin-top:12px;
   }
-  @media (max-width:430px){.kpi-grid{grid-template-columns:1fr}}
+  @media (max-width:430px){
+    .kpi-grid{grid-template-columns:1fr}
+  }
   .kpi{
     border:1px solid var(--line);
     background:#fff;
     border-radius:14px;
     padding:12px;
   }
-  .kpi .k{font-size:12px;color:#60767a;font-weight:800;margin-bottom:4px}
-  .kpi .v{font-size:18px;color:#1e2a2d;font-weight:950;font-feature-settings:"tnum"}
+  .kpi .k{
+    font-size:12px;
+    color:#60767a;
+    font-weight:800;
+    margin-bottom:4px;
+  }
+  .kpi .v{
+    font-size:18px;
+    color:#1e2a2d;
+    font-weight:950;
+    font-feature-settings:"tnum";
+  }
   .kpi.good .v{color:#12805c}
 
   .avgrow-container{
@@ -318,34 +518,165 @@
     padding-top:14px;
     border-top:1px dashed var(--line);
   }
-  .avg-label{font-size:15px;font-weight:800;color:#324245}
-  .input-row-right{display:flex;justify-content:flex-end;margin-top:6px}
-  .yen-input.small .money{font-size:16px;width:110px}
-  .yen-input.small input::placeholder{color:#7f8d91;opacity:.55;font-weight:500}
-  .metrics{margin-top:8px;text-align:right;color:#2b3a3d;font-size:15px;line-height:1.7}
-  .metrics b{font-weight:950;color:#0f2022}
+  .avg-label{
+    font-size:15px;
+    font-weight:800;
+    color:#324245;
+  }
+  .input-row-right{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:6px;
+  }
+  .yen-input.small .money{
+    font-size:16px;
+    width:110px;
+  }
+  .yen-input.small input::placeholder{
+    color:#7f8d91;
+    opacity:.55;
+    font-weight:500;
+  }
+  .metrics{
+    margin-top:8px;
+    text-align:right;
+    color:#2b3a3d;
+    font-size:15px;
+    line-height:1.7;
+  }
+  .metrics b{
+    font-weight:950;
+    color:#0f2022;
+  }
 
-  .btn-row{display:none;gap:8px;margin-top:12px}
+  .btn-row{
+    display:none;
+    gap:8px;
+    margin-top:12px;
+  }
   .btn-row.show{display:flex}
-  .btn-row .btn{flex:1;padding:12px 10px;font-size:15px}
-  @media (max-width:430px){.btn-row{flex-direction:column}}
+  .btn-row .btn{
+    flex:1;
+    padding:12px 10px;
+    font-size:15px;
+  }
+  @media (max-width:430px){
+    .btn-row{flex-direction:column}
+  }
 
-  .note{margin-top:12px;color:#6a7a7d;font-size:12px;line-height:1.65}
-  .mk-mini{margin:18px 4px 6px;text-align:center;color:#667;font-size:11px;line-height:1.6}
-  .mk-mini a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+  .note{
+    margin-top:12px;
+    color:#6a7a7d;
+    font-size:12px;
+    line-height:1.65;
+  }
+  .mk-mini{
+    margin:18px 4px 6px;
+    text-align:center;
+    color:#667;
+    font-size:11px;
+    line-height:1.6;
+  }
+  .mk-mini a{
+    color:inherit;
+    text-decoration:underline;
+    text-underline-offset:2px;
+  }
 
   [hidden]{display:none!important}
 
+  .mk-nav{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:999;
+    padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+    background:rgba(255,255,255,.92);
+    border-top:1px solid #e2e8f0;
+    backdrop-filter:saturate(180%) blur(10px);
+  }
+  .mk-nav .inner{
+    max-width:1100px;
+    margin:0 auto;
+    display:flex;
+    gap:10px;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .mk-nav .left{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    min-width:0;
+  }
+  .mk-nav .hint{
+    font-size:11px;
+    color:#64748b;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .mk-nav .btns{
+    display:flex;
+    gap:8px;
+    flex:0 0 auto;
+  }
+  .mk-nav a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    height:36px;
+    padding:0 12px;
+    border-radius:12px;
+    border:1px solid #e2e8f0;
+    text-decoration:none;
+    font-weight:800;
+    color:#0f172a;
+    background:#fff;
+  }
+  .mk-nav a.primary{
+    border-color:transparent;
+    background:linear-gradient(135deg,#578899 0%,#7aa5b4 100%);
+    color:#fff;
+  }
+  @media (max-width:420px){
+    .mk-nav .hint{display:none}
+    .mk-nav a{
+      height:34px;
+      padding:0 10px;
+      font-size:12px;
+    }
+  }
+
   @media print{
-    body{background:#fff;padding-bottom:0!important}
-    .wrap{max-width:720px;padding:0}
-    .card{box-shadow:none;border:1px solid #ddd}
-    .btn,.tiny-btn,.chip-grid,.period-switch,.mode-grid,.range-row input[type="range"],.mk-nav{display:none!important}
+    body{
+      background:#fff;
+      padding-bottom:0!important;
+    }
+    .wrap{
+      max-width:720px;
+      padding:0;
+    }
+    .card{
+      box-shadow:none;
+      border:1px solid #ddd;
+    }
+    .btn,
+    .tiny-btn,
+    .chip-grid,
+    .period-switch,
+    .mode-grid,
+    .range-row input[type="range"],
+    .mk-nav{
+      display:none!important;
+    }
     .btn-row{display:none!important}
     .subtitle,.helper,.note,.mk-mini{color:#333}
   }
 </style>
 </head>
+
 <body>
 <div class="wrap">
   <header>
@@ -353,9 +684,9 @@
       <a class="logo-link" href="https://takatrp.github.io/tool-portal/" target="_blank" rel="noopener" aria-label="松本会計ツールポータルへ">
         <img src="ロゴ.jpg" alt="松本会計事務所ロゴ" class="logo" />
       </a>
-      <h1 class="title">支出削減効果を<br class="sp-br">売上に直すといくらですか？</h1>
+      <h1 class="title">支出削減効果見える化ツール</h1>
     </div>
-    <div class="subtitle">現在の支出を削減したとき、その効果が「いくら売上を増やしたのと同じか」を限界利益率で換算します。</div>
+    <div class="subtitle">現在の支出を削減したとき、その効果が「いくら売上を作らずに済むか」を限界利益率で換算します。</div>
   </header>
 
   <section class="card" aria-label="入力">
@@ -364,10 +695,12 @@
         <div class="label big">① 計算単位</div>
         <button id="sampleBtn" class="tiny-btn" type="button">例を入れる</button>
       </div>
+
       <div class="period-switch" role="group" aria-label="計算単位">
         <button class="seg-btn active" type="button" data-period="monthly">月額で見る</button>
         <button class="seg-btn" type="button" data-period="annual">年額で見る</button>
       </div>
+
       <div class="helper">月額で入力した場合は、年間効果も自動で表示します。</div>
     </div>
 
@@ -375,10 +708,20 @@
       <div class="label-row">
         <div class="label big">② 削減額の出し方</div>
       </div>
+
       <div class="mode-grid" role="group" aria-label="削減額の入力方法">
-        <button class="mode-btn active" type="button" data-mode="direct">削減額を入力<small>例：月5万円削減</small></button>
-        <button class="mode-btn" type="button" data-mode="after">削減後で計算<small>例：30万円→24万円</small></button>
-        <button class="mode-btn" type="button" data-mode="rate">削減率で計算<small>例：10%削減</small></button>
+        <button class="mode-btn active" type="button" data-mode="direct">
+          削減額を直接入力
+          <small>例：月5万円削減</small>
+        </button>
+        <button class="mode-btn" type="button" data-mode="after">
+          削減後の金額から計算
+          <small>例：30万円→24万円</small>
+        </button>
+        <button class="mode-btn" type="button" data-mode="rate">
+          削減率から計算
+          <small>例：10%削減</small>
+        </button>
       </div>
     </div>
 
@@ -386,7 +729,8 @@
       <div class="label-row">
         <div class="label big">③ 現在の支出額（円）</div>
       </div>
-      <div class="helper" id="currentHelper">削減後金額・削減率から計算する場合に使用します。削減額を直接入力する場合は、削減率の参考表示に使います。</div>
+      <div class="helper" id="currentHelper">※売上換算額のビフォーアフター表示にも使います。削減額を直接入力する場合でも、現在の支出額は入力してください。</div>
+
       <div class="range-row">
         <input id="currentRange" type="range" min="0" max="3000000" step="1000" value="300000" />
         <div class="yen-input">
@@ -400,6 +744,7 @@
       <div class="label-row">
         <div class="label big">④ 削減できる金額（円）</div>
       </div>
+
       <div class="range-row">
         <input id="reductionRange" type="range" min="0" max="1000000" step="1000" value="50000" />
         <div class="yen-input">
@@ -413,6 +758,7 @@
       <div class="label-row">
         <div class="label big">④ 削減後の支出額（円）</div>
       </div>
+
       <div class="range-row">
         <input id="afterRange" type="range" min="0" max="3000000" step="1000" value="250000" />
         <div class="yen-input">
@@ -426,6 +772,7 @@
       <div class="label-row">
         <div class="label big">④ 削減率（％）</div>
       </div>
+
       <div class="range-row">
         <input id="rateRange" type="range" min="0" max="80" step="0.1" value="10" />
         <div class="pctbox">
@@ -440,10 +787,12 @@
         <div class="label big">⑤ 御社の限界利益率（％）</div>
         <span id="lastDateCmr" class="last-date">前回入力日：ー</span>
       </div>
+
       <div class="helper">
         ※支出削減額は利益に直接効きます。これを売上換算するには、<strong>限界利益率</strong>で割り戻します。<br>
         ※限界利益率が不明な場合は、まず下の業種平均を仮置きし、後で御社の数値に置き換えてください。
       </div>
+
       <div class="range-row">
         <input id="cmr" type="range" min="5" max="95" step="0.1" value="43.6" />
         <div class="pctbox">
@@ -471,7 +820,7 @@
 
     <div class="result" id="resultArea" hidden>
       <div class="summary-box">
-        <div class="result-label">売上換算額</div>
+        <div class="result-label">売らずに済む売上相当額</div>
         <div class="amount" id="salesEquivalent">—</div>
         <div class="subamount" id="salesSub">—</div>
       </div>
@@ -513,6 +862,7 @@
             <div class="stack-after" id="stackAfter" style="width:0%;"></div>
             <div class="stack-saved" id="stackSaved" style="width:0%;"></div>
           </div>
+
           <div class="stack-legend">
             <div class="legend-item">
               <span class="legend-dot after"></span>
@@ -533,7 +883,7 @@
       </div>
 
       <div class="insight" id="insightText">
-        削減できた支出は、売上を増やさなくても利益を押し上げます。値上げ・販売増が難しい場面ほど、固定費の見直し効果は経営者に伝わりやすくなります。
+        削減できた支出は、売上を増やさなくても利益を押し上げます。
       </div>
 
       <div class="kpi-grid">
@@ -560,13 +910,16 @@
           <div class="avg-label">平均単価（任意）</div>
           <span id="lastDateAvg" class="last-date">前回入力日：ー</span>
         </div>
+
         <div class="helper">平均単価を入れると「売らずに済んだ販売数」に換算できます。</div>
+
         <div class="input-row-right">
           <div class="yen-input small">
             <span class="prefix">¥</span>
             <input id="avgPrice" class="money" type="text" inputmode="numeric" placeholder="例：10,000" autocomplete="off" />
           </div>
         </div>
+
         <div class="metrics" id="metrics">
           ＝ 売らずに済んだ販売数： <b id="unitsAvoided">—</b><br>
           <span id="unitsAvoidedAnnual">年間：—</span>
@@ -595,25 +948,12 @@
 
   <footer class="mk-mini">
     © <span id="cpy-year">2026</span>
-    <a href="https://www.matsumoto-kaikei.or.jp/" target="_blank" rel="noopener license">税理士法人松本会計事務所</a> ｜
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener">CC BY-NC-SA 4.0</a> ｜
-    <a href="/tool-portal/terms.html" target="_blank" rel="noopener">利用条件</a> ｜
-    <span id="build-rev">r1</span>（<span id="last-updated-date"></span>）
+    <a href="https://www.matsumoto-kaikei.or.jp/" target="_blank" rel="noopener license">税理士法人松本会計事務所</a> ｜ 
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener">CC BY-NC-SA 4.0</a> ｜ 
+    <a href="/tool-portal/terms.html" target="_blank" rel="noopener">利用条件</a> ｜ 
+    <span id="build-rev">r4</span>（<span id="last-updated-date"></span>）
   </footer>
 </div>
-
-<style>
-:root{ --mk-brand:#578899; --mk-line:#e2e8f0; --mk-ink:#0f172a; --mk-muted:#64748b; }
-.mk-nav{position:fixed; left:0; right:0; bottom:0; z-index:999; padding:10px 12px calc(10px + env(safe-area-inset-bottom)); background:rgba(255,255,255,.92); border-top:1px solid var(--mk-line); backdrop-filter:saturate(180%) blur(10px);}
-.mk-nav .inner{max-width:1100px; margin:0 auto; display:flex; gap:10px; align-items:center; justify-content:space-between;}
-.mk-nav .left{display:flex; flex-direction:column; gap:2px; min-width:0;}
-.mk-nav .hint{font-size:11px; color:var(--mk-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-.mk-nav .btns{display:flex; gap:8px; flex:0 0 auto;}
-.mk-nav a{display:inline-flex; align-items:center; justify-content:center; height:36px; padding:0 12px; border-radius:12px; border:1px solid var(--mk-line); text-decoration:none; font-weight:800; color:var(--mk-ink); background:#fff;}
-.mk-nav a.primary{border-color:transparent; background:linear-gradient(135deg, var(--mk-brand) 0%, #7aa5b4 100%); color:#fff;}
-@media (max-width:420px){.mk-nav .hint{display:none;}.mk-nav a{height:34px; padding:0 10px; font-size:12px;}}
-body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
-</style>
 
 <div class="mk-nav" id="mk-nav" hidden>
   <div class="inner">
@@ -697,6 +1037,7 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
     const d = new Date();
     return `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;
   }
+
   function updateDateLabel(el,dateStr){
     el.textContent = dateStr ? `前回入力日：${dateStr}` : '前回入力日：ー';
   }
@@ -713,6 +1054,7 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
       inputEl.value = formatPlainJPY(+rangeEl.value);
       if(inputEl === currentExpense && mode === 'after') syncAfterMax();
     });
+
     inputEl.addEventListener('input',(e) => {
       const v = parseMoney(e.target.value);
       if(isNaN(v)) return;
@@ -721,6 +1063,7 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
       if(inputEl === currentExpense && mode === 'after') syncAfterMax();
     });
   }
+
   setupMoneyPair(currentRange,currentExpense);
   setupMoneyPair(reductionRange,reductionAmount);
   setupMoneyPair(afterRange,afterExpense);
@@ -730,12 +1073,14 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
       const v = +rangeEl.value;
       inputEl.value = v.toFixed(maxDecimals);
     });
+
     inputEl.addEventListener('input',() => {
       const v = parsePct(inputEl.value);
       if(!isNaN(v) && v >= +rangeEl.min && v <= +rangeEl.max){
         rangeEl.value = v.toFixed(maxDecimals);
       }
     });
+
     inputEl.addEventListener('blur',() => {
       const v = parsePct(inputEl.value);
       if(isNaN(v)){
@@ -747,6 +1092,7 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
       inputEl.value = c.toFixed(maxDecimals);
     });
   }
+
   setupPctPair(rateRange,rateInput,1);
   setupPctPair(cmrRange,cmrInput,1);
 
@@ -760,6 +1106,7 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
     updateDateLabel(lastDateCmr,null);
     return 43.6;
   }
+
   function saveCmr(v){
     try{
       localStorage.setItem(STORAGE_KEY_CMR,Number(v).toFixed(1));
@@ -768,6 +1115,7 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
       updateDateLabel(lastDateCmr,today);
     }catch{}
   }
+
   function loadAvgPrice(){
     try{
       const v = localStorage.getItem(STORAGE_KEY_AVG_PRICE);
@@ -776,6 +1124,7 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
       if(v) avgPriceEl.value = v;
     }catch{}
   }
+
   function saveAvgPrice(){
     const v = avgPriceEl.value;
     if(!v) return;
@@ -793,7 +1142,10 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
   loadAvgPrice();
 
   cmrRange.addEventListener('change',() => saveCmr(+cmrRange.value));
-  cmrInput.addEventListener('blur',() => saveCmr(parsePct(cmrInput.value)));
+  cmrInput.addEventListener('blur',() => {
+    const v = parsePct(cmrInput.value);
+    if(!isNaN(v)) saveCmr(v);
+  });
 
   $$('.chip').forEach((b) => {
     b.addEventListener('click',() => {
@@ -820,13 +1172,12 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
     $('#field-reduction-direct').hidden = mode !== 'direct';
     $('#field-reduction-after').hidden = mode !== 'after';
     $('#field-reduction-rate').hidden = mode !== 'rate';
-    $('#currentHelper').textContent = mode === 'direct'
-      ? '削減額を直接入力する場合、現在の支出額は削減率の参考表示に使用します。未入力でも計算できます。'
-      : '現在の支出額をもとに、削減額と売上換算額を計算します。';
     syncAfterMax();
   }
 
-  $$('.mode-btn').forEach((b) => b.addEventListener('click',() => setMode(b.dataset.mode)));
+  $$('.mode-btn').forEach((b) => {
+    b.addEventListener('click',() => setMode(b.dataset.mode));
+  });
 
   $$('.seg-btn').forEach((b) => {
     b.addEventListener('click',() => {
@@ -845,17 +1196,21 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
 
   function getSavingAmount(){
     const cur = parseMoney(currentExpense.value) || 0;
+
     if(mode === 'direct'){
       return Math.max(0,parseMoney(reductionAmount.value) || 0);
     }
+
     if(mode === 'after'){
       const after = parseMoney(afterExpense.value) || 0;
       return Math.max(0,cur - after);
     }
+
     if(mode === 'rate'){
       const rate = parsePct(rateInput.value) || 0;
       return Math.max(0,cur * rate / 100);
     }
+
     return 0;
   }
 
@@ -867,19 +1222,21 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
 
   function updateUnits(){
     const avg = parseMoney(avgPriceEl.value);
+
     if(!avg || avg <= 0 || !lastSalesEquivalent){
       unitsAvoided.textContent = '—';
       unitsAvoidedAnnual.textContent = '年間：—';
       return;
     }
+
     unitsAvoided.textContent = `${(lastSalesEquivalent / avg).toFixed(1)}個分`;
     unitsAvoidedAnnual.textContent = `年間：${(lastAnnualSalesEquivalent / avg).toFixed(1)}個分`;
   }
 
   function updateGraph(beforeSales, afterSales, salesEquivalent, savingRate){
-    const beforeSafe = Math.max(beforeSales, 1);
-    const afterPct = Math.max(0, Math.min(100, afterSales / beforeSafe * 100));
-    const savedPct = Math.max(0, Math.min(100, salesEquivalent / beforeSafe * 100));
+    const beforeSafe = Math.max(beforeSales,1);
+    const afterPct = Math.max(0,Math.min(100,afterSales / beforeSafe * 100));
+    const savedPct = Math.max(0,Math.min(100,salesEquivalent / beforeSafe * 100));
 
     beforeBar.style.width = '100%';
     afterBar.style.width = `${afterPct}%`;
@@ -906,25 +1263,30 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
       currentExpense.focus();
       return;
     }
+
     if(isNaN(saving) || saving <= 0){
       alert('削減できる金額を正しく入力してください。');
       return;
     }
+
     if(saving > current){
       alert('削減額が現在の支出額を上回っています。現在の支出額または削減額を見直してください。');
       return;
     }
+
     if(isNaN(pct) || pct <= 0){
       alert('限界利益率を正しく入力してください。');
       cmrInput.focus();
       return;
     }
 
-    const after = Math.max(0, current - saving);
+    const after = Math.max(0,current - saving);
     const rate = pct / 100;
+
     const beforeSalesEquivalent = Math.ceil(current / rate);
     const afterSalesEquivalent = Math.ceil(after / rate);
     const salesEquivalent = Math.ceil(saving / rate);
+
     const annualSaving = saving * annualFactor();
     const annualSalesEquivalent = salesEquivalent * annualFactor();
     const savingRate = getSavingRate(saving);
@@ -937,6 +1299,7 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
     lastAfterSalesEquivalent = afterSalesEquivalent;
 
     const pLabel = periodLabel();
+
     salesEquivalentEl.textContent = formatJPY(salesEquivalent);
     salesSubEl.textContent = `${pLabel}あたり、売らずに済む売上相当額`;
 
@@ -948,24 +1311,38 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
     annualSavingKpi.textContent = formatJPY(annualSaving);
     annualSalesKpi.textContent = formatJPY(annualSalesEquivalent);
 
-    $('#insightText').textContent = makeInsightText(current, after, saving, beforeSalesEquivalent, afterSalesEquivalent, salesEquivalent, annualSaving, annualSalesEquivalent, savingRate);
-    updateGraph(beforeSalesEquivalent, afterSalesEquivalent, salesEquivalent, savingRate);
+    $('#insightText').textContent = makeInsightText(
+      current,
+      after,
+      saving,
+      beforeSalesEquivalent,
+      afterSalesEquivalent,
+      salesEquivalent,
+      annualSaving,
+      annualSalesEquivalent
+    );
+
+    updateGraph(beforeSalesEquivalent,afterSalesEquivalent,salesEquivalent,savingRate);
 
     resultArea.hidden = false;
     actionRow.classList.add('show');
     updateUnits();
 
-    if(shouldScroll) resultArea.scrollIntoView({behavior:'smooth',block:'center'});
+    if(shouldScroll){
+      resultArea.scrollIntoView({behavior:'smooth',block:'center'});
+    }
   }
 
-  function makeInsightText(current, after, saving, beforeSalesEquivalent, afterSalesEquivalent, salesEquivalent, annualSaving, annualSalesEquivalent, savingRate){
+  function makeInsightText(current,after,saving,beforeSalesEquivalent,afterSalesEquivalent,salesEquivalent,annualSaving,annualSalesEquivalent){
     if(period === 'monthly'){
       return `月${formatJPY(current)}の支出は、御社では月${formatJPY(beforeSalesEquivalent)}の売上相当です。これを月${formatJPY(after)}まで下げられるなら、必要な売上相当額は月${formatJPY(afterSalesEquivalent)}まで下がり、月${formatJPY(salesEquivalent)}、年間${formatJPY(annualSalesEquivalent)}の売上を作らずに済む計算です。`;
     }
+
     return `年${formatJPY(current)}の支出は、御社では年${formatJPY(beforeSalesEquivalent)}の売上相当です。これを年${formatJPY(after)}まで下げられるなら、必要な売上相当額は年${formatJPY(afterSalesEquivalent)}まで下がり、年${formatJPY(salesEquivalent)}の売上を作らずに済む計算です。`;
   }
 
   $('#calc').addEventListener('click',() => calc(true));
+
   [currentExpense,reductionAmount,afterExpense,rateInput,cmrInput].forEach((el) => {
     el.addEventListener('keydown',(e) => {
       if(e.key === 'Enter'){
@@ -978,23 +1355,33 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
   $('#sampleBtn').addEventListener('click',() => {
     period = 'monthly';
     $$('.seg-btn').forEach((x) => x.classList.toggle('active',x.dataset.period === period));
+
     setMode('after');
+
     currentExpense.value = formatPlainJPY(300000);
     currentRange.value = 300000;
+
     afterExpense.value = formatPlainJPY(250000);
     afterRange.value = 250000;
+
     cmrRange.value = '43.6';
     cmrInput.value = '43.6';
+
     calc(true);
   });
 
   $('#copy').addEventListener('click',async() => {
     if(resultArea.hidden) return;
+
     const p = periodLabel();
+
     const text = [
-      `支出削減効果の売上換算`,
+      `支出削減効果見える化`,
+      `現在の支出額：${p}${formatJPY(parseMoney(currentExpense.value)||0)}`,
       `削減額：${p}${formatJPY(lastSaving)}`,
-      `売上換算額：${p}${formatJPY(lastSalesEquivalent)}`,
+      `見直し前の売上換算額：${p}${formatJPY(lastBeforeSalesEquivalent)}`,
+      `見直し後の売上換算額：${p}${formatJPY(lastAfterSalesEquivalent)}`,
+      `売らずに済む売上相当額：${p}${formatJPY(lastSalesEquivalent)}`,
       `年間利益改善額：${formatJPY(lastAnnualSaving)}`,
       `年間売上換算額：${formatJPY(lastAnnualSalesEquivalent)}`,
       `限界利益率：${cmrInput.value}%`,
@@ -1021,27 +1408,42 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
   $('#reset').addEventListener('click',() => {
     period = 'monthly';
     $$('.seg-btn').forEach((x) => x.classList.toggle('active',x.dataset.period === period));
+
     setMode('direct');
+
     currentExpense.value = formatPlainJPY(300000);
     currentRange.value = 300000;
+
     reductionAmount.value = formatPlainJPY(50000);
     reductionRange.value = 50000;
+
     afterExpense.value = formatPlainJPY(250000);
     afterRange.value = 250000;
+
     rateInput.value = '10.0';
     rateRange.value = 10;
+
     const cmr0 = loadCmr();
     cmrRange.value = cmr0.toFixed(1);
     cmrInput.value = cmr0.toFixed(1);
+
     avgPriceEl.value = '';
     try{
       localStorage.removeItem(STORAGE_KEY_AVG_PRICE);
       localStorage.removeItem(STORAGE_KEY_DATE_AVG);
     }catch{}
     updateDateLabel(lastDateAvg,null);
-    lastSaving = lastSalesEquivalent = lastAnnualSaving = lastAnnualSalesEquivalent = 0;
+
+    lastSaving = 0;
+    lastSalesEquivalent = 0;
+    lastAnnualSaving = 0;
+    lastAnnualSalesEquivalent = 0;
+    lastBeforeSalesEquivalent = 0;
+    lastAfterSalesEquivalent = 0;
+
     resultArea.hidden = true;
     actionRow.classList.remove('show');
+
     window.scrollTo({top:0,behavior:'smooth'});
   });
 
@@ -1054,23 +1456,33 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
     window.open('https://takatrp.github.io/tool-portal/','_blank');
   });
 
-  $('#btnToPortal').addEventListener('contextmenu',(e) => e.preventDefault());
-
   (function initNav(){
     const params = new URLSearchParams(location.search);
-    const portal = params.get('portal') || (function(){ try{return localStorage.getItem('mk_portal_url');}catch(e){return null;} })() || 'https://takatrp.github.io/tool-portal/';
+    const portal =
+      params.get('portal') ||
+      (function(){
+        try{return localStorage.getItem('mk_portal_url');}
+        catch(e){return null;}
+      })() ||
+      'https://takatrp.github.io/tool-portal/';
+
     const nav = document.getElementById('mk-nav');
     const back = document.getElementById('mk-back');
     const nextBtn = document.getElementById('mk-next');
+
     if(back) back.href = portal;
     if(nextBtn) nextBtn.href = portal;
-    try{ localStorage.setItem('mk_portal_url',portal); }catch(e){}
+
+    try{
+      localStorage.setItem('mk_portal_url',portal);
+    }catch(e){}
+
     if(nav) nav.hidden = false;
   })();
 
-  // URLパラメータからの簡易連携
   window.addEventListener('DOMContentLoaded',() => {
     const params = new URLSearchParams(location.search);
+
     const saving = params.get('saving') || params.get('reduction');
     const cmr = params.get('cmr');
     const unitPrice = params.get('unit_price');
@@ -1080,6 +1492,7 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
       period = p;
       $$('.seg-btn').forEach((x) => x.classList.toggle('active',x.dataset.period === period));
     }
+
     if(saving){
       const v = Number(saving);
       if(!isNaN(v) && v > 0){
@@ -1088,6 +1501,7 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
         reductionRange.value = clamp(v,+reductionRange.min,+reductionRange.max);
       }
     }
+
     if(cmr){
       const v = Number(cmr);
       if(!isNaN(v) && v > 0){
@@ -1096,11 +1510,17 @@ body{ padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
         cmrInput.value = c.toFixed(1);
       }
     }
+
     if(unitPrice){
       const v = Number(unitPrice);
-      if(!isNaN(v) && v > 0) avgPriceEl.value = formatPlainJPY(v);
+      if(!isNaN(v) && v > 0){
+        avgPriceEl.value = formatPlainJPY(v);
+      }
     }
-    if(saving) calc(true);
+
+    if(saving){
+      calc(true);
+    }
   });
 </script>
 <script src="https://takatrp.github.io/tool-portal/mk-nav.js" defer></script>
