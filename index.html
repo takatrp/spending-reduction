@@ -820,23 +820,23 @@
       </div>
 
       <div class="range-row">
-        <input id="cmr" type="range" min="5" max="95" step="0.1" value="43.6" />
+        <input id="cmr" type="range" min="5" max="95" step="0.1" value="43.7" />
         <div class="pctbox">
-          <input id="cmrInput" class="pct" type="text" inputmode="decimal" value="43.6" autocomplete="off" />
+          <input id="cmrInput" class="pct" type="text" inputmode="decimal" value="43.7" autocomplete="off" />
           <span class="unit">%</span>
         </div>
       </div>
 
       <div class="helper" style="margin-top:8px;">参考：産業ごとの全国平均</div>
       <div class="chip-grid" id="chips">
-        <button class="chip" type="button" data-pct="43.6"><span class="nm">全産業</span><span class="val">43.6%</span></button>
-        <button class="chip" type="button" data-pct="64.6"><span class="nm">漁業</span><span class="val">64.6%</span></button>
-        <button class="chip" type="button" data-pct="39.9"><span class="nm">建設業</span><span class="val">39.9%</span></button>
-        <button class="chip" type="button" data-pct="44.8"><span class="nm">製造業</span><span class="val">44.8%</span></button>
-        <button class="chip" type="button" data-pct="20.5"><span class="nm">卸売業</span><span class="val">20.5%</span></button>
-        <button class="chip" type="button" data-pct="32.0"><span class="nm">小売業</span><span class="val">32.0%</span></button>
-        <button class="chip" type="button" data-pct="79.2"><span class="nm">宿泊業</span><span class="val">79.2%</span></button>
-        <button class="chip" type="button" data-pct="64.1"><span class="nm">飲食業</span><span class="val">64.1%</span></button>
+        <button class="chip" type="button" data-pct="43.7"><span class="nm">全産業</span><span class="val">43.7%</span></button>
+        <button class="chip" type="button" data-pct="65.3"><span class="nm">漁業</span><span class="val">65.3%</span></button>
+        <button class="chip" type="button" data-pct="40.3"><span class="nm">建設業</span><span class="val">40.3%</span></button>
+        <button class="chip" type="button" data-pct="44.7"><span class="nm">製造業</span><span class="val">44.7%</span></button>
+        <button class="chip" type="button" data-pct="20.6"><span class="nm">卸売業</span><span class="val">20.6%</span></button>
+        <button class="chip" type="button" data-pct="32.2"><span class="nm">小売業</span><span class="val">32.2%</span></button>
+        <button class="chip" type="button" data-pct="79.5"><span class="nm">宿泊業</span><span class="val">79.5%</span></button>
+        <button class="chip" type="button" data-pct="64.2"><span class="nm">飲食業</span><span class="val">64.2%</span></button>
       </div>
     </div>
 
@@ -961,7 +961,7 @@
         ※ 計算式：<b>売上換算額 ＝ 支出削減額 ÷（限界利益率 / 100）</b><br>
         ※ グラフは「現在の支出額 ÷ 限界利益率」と「削減後の支出額 ÷ 限界利益率」を比較しています。<br>
         ※ 支出削減額は、固定費・経費等の削減により利益が改善する金額として扱っています。売上原価・変動費の削減を扱う場合は、実務上は粗利率・限界利益率への影響も併せて確認してください。<br>
-        ※ 各産業平均は令和7年版TKC経営指標（BAST）を参照する想定です。
+        ※ 各産業平均は令和8年版TKC経営指標（BAST）を参照する想定です。
       </div>
     </div>
 
@@ -1130,7 +1130,7 @@
       if(!isNaN(v)) return clamp(v,+cmrRange.min,+cmrRange.max);
     }catch{}
     updateDateLabel(lastDateCmr,null);
-    return 43.6;
+    return 43.7;
   }
 
   function saveCmr(v){
@@ -1390,8 +1390,8 @@
     afterExpense.value = formatPlainJPY(250000);
     afterRange.value = 250000;
 
-    cmrRange.value = '43.6';
-    cmrInput.value = '43.6';
+    cmrRange.value = '43.7';
+    cmrInput.value = '43.7';
 
     calc(true);
   });
